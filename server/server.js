@@ -2,6 +2,7 @@ const express=require('express');
 const cors=require('cors');
 const mysql=require('mysql2');
 const app=express();
+const path = require("path");
 app.use(cors());
 app.use(express.json());
 let expenses=[];
@@ -20,6 +21,7 @@ db.connect((err)=>{
     console.log("The database  successfully connected.")
 
 })
+app.use(express.static(path.join(__dirname, "..")));
 //retrive expense
 app.get('/expense',(req,res)=>{
     db.query('SELECT * FROM expenses',(err,results)=>{
