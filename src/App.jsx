@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState ,useEffect} from 'react'
 import Header from './Header.jsx'
 import AddExpense from './AddExpense.jsx'
 import ExpenseList from './ExpenseList.jsx'
@@ -6,7 +6,11 @@ import './App.css'
 
 function App() {
   const [expense ,setExpense]=useState([]);
- 
+ useEffect(()=>{
+  fetch("http://localhost:5000/expense")
+  .then(res =>res.json)
+  .then(data=>setExpense(data))
+ },[]);
   function handleAdd(newExpense){
       setExpense(prev =>[...prev ,newExpense]);
   }
@@ -28,7 +32,7 @@ const thisMonthTaotal =expense.filter(exp=>{
     <>
      <Header total={total} thisMonthTaotal={thisMonthTaotal}/>
      <AddExpense onAdd={handleAdd}/>
-     <ExpenseList onDelet={deletHandle}/>
+     <ExpenseList  expenses={expense} onDelete={deletHandle}/>
     </>
   )
 }
